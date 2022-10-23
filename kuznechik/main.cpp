@@ -91,7 +91,7 @@ TEST(Bench_encoding, wiki) {
     auto stop = std::chrono::high_resolution_clock::now();
     std::cout << "\n\nEncoding elapsed time for 100mb: "
               << std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count()
-              << "\n\n";;
+              << "ms\n\n";;
 }
 
 TEST(Bench_dencoding, wiki) {
@@ -115,7 +115,7 @@ TEST(Bench_dencoding, wiki) {
 
     std::cout << "\n\nDecoding elapsed time for 100mb: "
               << std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count()
-              << "\n\n";
+              << "ms\n\n";
 
 
 }
