@@ -1,11 +1,10 @@
-#include <iostream>
-#include <string>
 #include <gtest/gtest.h>
-#include "kuznechik.h"
+#include "kuznechik.hpp"
+#include "utils.hpp"
 #include <chrono>
 
 using std::vector;
-//
+
 TEST(Correctness_generate_keys, wiki) {
     std::vector<std::string> correct{"8899aabbccddeeff0011223344556677",
                                      "fedcba98765432100123456789abcdef",
@@ -34,7 +33,7 @@ TEST(Correctness_encoding, wiki) {
 
     KuznechikCipher kuznechik("8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef");
 
-    auto blk = hex2bin("1122334455667700ffeeddccbbaa9988");
+    auto blk = utils::hex2bin("1122334455667700ffeeddccbbaa9988");
     auto [first, second] = kuznechik.encode_block(blk);
     blk[0] = uint8_t(first >> 56), blk[1] = uint8_t(first >> 48), blk[2] = uint8_t(first >> 40), blk[3] = uint8_t(
             first >> 32), blk[4] = uint8_t(first >> 24), blk[5] = uint8_t(first >> 16), blk[6] = uint8_t(
@@ -42,7 +41,7 @@ TEST(Correctness_encoding, wiki) {
     blk[8] = uint8_t(second >> 56), blk[9] = uint8_t(second >> 48), blk[10] = uint8_t(second >> 40), blk[11] = uint8_t(
             second >> 32), blk[12] = uint8_t(second >> 24), blk[13] = uint8_t(second >> 16), blk[14] = uint8_t(
             second >> 8), blk[15] = uint8_t(second);
-    auto res = convert_uint_arr_to_str(blk);
+    auto res = utils::convert_uint_arr_to_str(blk);
     ASSERT_EQ(res, correct);
 }
 
@@ -61,7 +60,7 @@ TEST(Correctness_dencoding, wiki) {
     blk[8] = uint8_t(second >> 56), blk[9] = uint8_t(second >> 48), blk[10] = uint8_t(second >> 40), blk[11] = uint8_t(
             second >> 32), blk[12] = uint8_t(second >> 24), blk[13] = uint8_t(second >> 16), blk[14] = uint8_t(
             second >> 8), blk[15] = uint8_t(second);
-    auto str_res = convert_uint_arr_to_str(blk);
+    auto str_res = utils::convert_uint_arr_to_str(blk);
     ASSERT_EQ(str_res, correct);
 }
 
@@ -71,11 +70,11 @@ TEST(Bench_encoding, wiki) {
 
     size_t num = 1024 * 1024 * 100 / 16;
 
-    auto blk_1 = hex2bin("1122334455667700ffeeddccbbaa9988");
+    auto blk_1 = utils::hex2bin("1122334455667700ffeeddccbbaa9988");
 
     vector<vector<uint8_t>> blocks;
     for (size_t i = 0; i < num; ++i) {
-        blocks.push_back(hex2bin("1122334455667700ffeeddccbbaa9988"));
+        blocks.push_back(utils::hex2bin("1122334455667700ffeeddccbbaa9988"));
     }
 
     vector<std::pair<uint64_t, uint64_t>> res;

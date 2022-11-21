@@ -16,7 +16,12 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-add_executable(kuznechik main.cpp kuznechik.h)
+add_executable(kuznechik
+        main.cpp
+        kuznechik.hpp
+        kuznechik.cpp
+        utils.hpp
+        )
 
 target_link_libraries(
         kuznechik
